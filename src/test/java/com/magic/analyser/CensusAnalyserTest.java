@@ -9,7 +9,7 @@ public class CensusAnalyserTest {
     private static final String WRONG_CSV_FILE_PATH = "D:\\Indian State Census Analyzer\\src\\main\\resources\\StateCensusData.csv";
     private static final String WRONG_FILE_TYPE = "D:\\Indian State Census Analyzer\\src\\main\\resources\\StateCensusData.xls";
     private static final String INDIAN_CENSUS_CSV_WRONG_DELIMITER = "D:\\Indian State Census Analyzer\\src\\main\\resources\\StateCensusData.csv";
-
+    private static final String INDIAN_CENSUS_CSV_MISSING_HEADER = "D:\\Indian State Census Analyzer\\src\\main\\resources\\StateCensusData.csv";
 
     @Test
     public void givenIndianCensusCSC_WhenChecked_ShouldReturnCorrectRecords() {
@@ -49,6 +49,15 @@ public class CensusAnalyserTest {
         try {
             StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
             censusAnalyser.loadCensus(INDIAN_CENSUS_CSV_WRONG_DELIMITER);
+        } catch (CensusAnalyserException e) {
+            Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+    @Test
+    public void givenMissingHeader_InIndiaCensusData_ShouldReturnCustomExceptionType() {
+        try {
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+            censusAnalyser.loadCensus(INDIAN_CENSUS_CSV_MISSING_HEADER);
         } catch (CensusAnalyserException e) {
             Assertions.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
